@@ -1,0 +1,16 @@
+/* #platform { 
+  fill: red;
+} */
+.platform { 
+  fill: red;
+} 
+#screen {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.game{
+  display: flex;
+  position: relative;
+  
+}
