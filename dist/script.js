@@ -9,7 +9,7 @@ var platform = document.getElementsByClassName("platform");
 
 
 var height = 500, //determines how many pixels away from the top of the screen is our baseline where the box will lie at rest/ y=0
-    width = 1500, //width of screen //"9vw"
+    width = 1300, //width of screen //"9vw"
     basePlayerHeight =63,
     playerHeight = basePlayerHeight, //actual box height ["tallness"] is determined in html; here we determine how high the base of the box is to the y=0 hight line
     //height -playerHeight = pixels between the bottom of the box and the green base line
@@ -60,7 +60,16 @@ var interval = setInterval((callback)=>{
   else{
     playerHeight = 63;
   }
-  
+  //set boundaries to not run off screen
+  if (worldData.player.x <=0 ){
+    worldData.player.x =0 ;
+  } 
+  if (worldData.player.x >= width - playerWidth ){
+    worldData.player.x = width -playerWidth ;
+  } 
+
+
+
   
    // Lets move player if arrow key is down. 
   if (isKeyDown("ArrowLeft")){
