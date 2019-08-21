@@ -6,7 +6,21 @@
 var screen = document.getElementById("screen");
 var player = document.getElementById("player");
 var platform = document.getElementsByClassName("platform");
-
+// var platPos = [
+//                 [50,450,100,20],
+//                 [250,400,100,20],
+//                 [300,350,100,20],
+//                 [500,350,100,20]
+//               ]
+var platPos = [
+                500,350,100,20,
+                250,400,100,20,
+                350,450,100,20,
+                50,450,100,20
+                
+                
+                
+              ]
 
 var height = 500, //determines how many pixels away from the top of the screen is our baseline where the box will lie at rest/ y=0
     width = 1300, //width of screen //"9vw"
@@ -53,13 +67,41 @@ var interval = setInterval((callback)=>{
   // Stuff that happens in here happens every frame.
 
   
-  //to land on the test platform:
-  if (worldData.player.y <430  && (worldData.player.x >=50-50+5) && (worldData.player.x <=50 +150)   ){
-    playerHeight = 63 + 500-450;
-  } 
-  else{
-    playerHeight = 63;
-  }
+
+  
+
+
+    // for (i=0;i<platPos.length;i++){
+    //   for (j=0;j<platPos[i].length;j++)
+        
+    //     if (worldData.player.y <platPos[i][1]  && (worldData.player.x >=platPos[i][0]-playerWidth) && (worldData.player.x <=platPos[i][0] +platPos[i][2])   ){
+    //       playerHeight = basePlayerHeight + height-platPos[i][1] ;
+    //       console.log("this is a platform!!!" + platPos[i][1] + platPos[i][0] + "hctig ="+ (basePlayerHeight + height-platPos[i][1] ) );
+    //     } 
+  
+    //     // else{
+    //     //   playerHeight = basePlayerHeight;
+    //     //   console.log("NO platform!!!" + platPos[i][1]);
+    //     // }
+    // }
+  
+    //   playerHeight = basePlayerHeight;
+    //   console.log("NO platform!!!");
+ 
+
+
+
+
+
+
+
+          // //to land on the test platform:
+          // if (worldData.player.y <430  && (worldData.player.x >=50-50+5) && (worldData.player.x <=50 +150)   ){
+          //   playerHeight = 63 + 500-450;
+          // } 
+          // else{
+          //   playerHeight = 63;
+          // }
   //set boundaries to not run off screen
   if (worldData.player.x <=0 ){
     worldData.player.x =0 ;
@@ -69,7 +111,7 @@ var interval = setInterval((callback)=>{
   } 
 
 
-
+  checkForPlatform (worldData.player.x , worldData.player.y);
   
    // Lets move player if arrow key is down. 
   if (isKeyDown("ArrowLeft")){
@@ -100,7 +142,7 @@ var interval = setInterval((callback)=>{
   else {
     // The player is falling
     worldData.player.y += worldData.player.fallingSpeed;
-    worldData.player.fallingSpeed += 0.5;
+    worldData.player.fallingSpeed += .5;
     
      if (worldData.player.currentDir === "left") {
        worldData.player.x -= worldData.player.jumpDisplacement;          //if you were heading left midair, keep heading left
@@ -134,6 +176,130 @@ document.addEventListener('keyup', (e)=>{
   var key = e.key;
   fireKeyAction(key, false)
 });
+
+
+
+
+
+function checkForPlatform (xVal, yVal){
+  var cred = false;
+  for (i=0;i<platPos.length;i+=4){
+   
+    console.log(platPos[(i+1)])
+ 
+    if (yVal<=(platPos[(i+1)]-basePlayerHeight) && (xVal >=(platPos[i]-playerWidth)) && (xVal <=(platPos[i] +platPos[(i+2)]))   ) {
+
+      playerHeight = basePlayerHeight + height-platPos[(i+1)] ;
+      
+      console.log("this is a platform!!!" + platPos[i+1] + platPos[i] + "hctig ="+ (basePlayerHeight + height-platPos[i+1] ) );
+      cred =true;
+      break;
+      
+    } 
+    // if (yVal===(platPos[(i+1)]-basePlayerHeight) && (xVal >=(platPos[i]-playerWidth)) && (xVal <=(platPos[i] +platPos[(i+2)]))   ) {
+    // worldData.player.fallingSpeed = 0
+    // worldData.player.y = (platPos[(i+1)]-basePlayerHeight);
+    // }
+
+
+
+
+
+    // else if ((xVal <=(platPos[i]-playerWidth)) || (xVal >=(platPos[i] +platPos[i+2])) ){
+    //   playerHeight = basePlayerHeight;
+    //   // console.log("NO platform!!!" + playerHeight);
+    // }
+
+    // else { //if (yVal <= basePlayerHeight)
+    //   playerHeight = basePlayerHeight;
+    //   console.log("NO platform!!!" + platPos[(i+1)]);
+    // }
+    // console.log("something's weird")
+    
+    // console.log ("is it true?="+ ((yVal<=platPos[i][1] && (xVal >=platPos[i][0]-playerWidth) && (xVal <=(platPos[i][0] +platPos[i][2]))   )));
+    // console.log ("check="+(xVal >=(platPos[i]-playerWidth)))
+    // console.log("x=" +worldData.player.x+ "    maxX="+ (platPos[i][0] +platPos[i][2])  + (xVal <=(platPos[i][0] +platPos[i][2]))    +"     y="+ yVal)
+    // console.log("x="+xVal +"    y="+yVal);
+    // console.log ((xVal >=(platPos[i]-playerWidth)) + "    x= "+xVal+ "          "+ (platPos[i]-playerWidth));
+    console.log((xVal <=(platPos[i]-playerWidth)) || (xVal >=(platPos[i] +platPos[i+2]))  ) 
+}
+// for (i=0;i<platPos.length;i+=4){
+   
+//   if (cred === false && ((xVal <=(platPos[i]-playerWidth)) || (xVal >=(platPos[i] +platPos[i+2])) )){
+//     playerHeight = basePlayerHeight;
+//     // console.log("NO platform!!!" + playerHeight);
+//   }
+// }
+
+  console.log ("cred=" + cred)
+  if (cred === false){
+  playerHeight = basePlayerHeight;
+  // console.log("NO platform!!!" + playerHeight);
+}
+
+
+
+  // if ((xVal <=(platPos[i]-playerWidth)) || (xVal >=(platPos[i] +platPos[i+2])) ){
+  //   playerHeight = basePlayerHeight;
+  //   // console.log("NO platform!!!" + playerHeight);
+  // }
+  console.log ("x= "+xVal+ "          y="+ yVal);
+
+
+}
+
+
+
+
+// if (worldData.player.y!= 0){
+//   checkForPlatform (worldData.player.x , worldData.player.y);
+// }
+
+
+
+
+// function checkForPlatform (xVal, yVal){
+//   var cred = false;
+//   for (i=0;i<platPos.length;i++){
+   
+      
+//       if (yVal<=platPos[i][1] && (xVal >=(platPos[i][0]-playerWidth)) && (xVal <=(platPos[i][0] +platPos[i][2]))   ) {
+//         playerHeight = basePlayerHeight + height-platPos[i][1] ;
+//         // console.log("this is a platform!!!" + platPos[i][1] + platPos[i][0] + "hctig ="+ (basePlayerHeight + height-platPos[i][1] ) );
+//         cred =true;
+//         break;
+        
+//       } 
+
+//       else { //if (yVal <= basePlayerHeight)
+//         playerHeight = basePlayerHeight;
+//         console.log("NO platform!!!" + platPos[i][1]);
+//       }
+  
+      
+//       // console.log ("is it true?="+ ((yVal<=platPos[i][1] && (xVal >=platPos[i][0]-playerWidth) && (xVal <=(platPos[i][0] +platPos[i][2]))   )));
+//       console.log ("check="+(xVal >=(platPos[i][0]-playerWidth)))
+//       // console.log("x=" +worldData.player.x+ "    maxX="+ (platPos[i][0] +platPos[i][2])  + (xVal <=(platPos[i][0] +platPos[i][2]))    +"     y="+ yVal)
+//       // console.log("x="+xVal +"    y="+yVal);
+//       console.log ((xVal >=(platPos[i][0]-playerWidth)) + "    x= "+xVal+ "          "+ (platPos[i][0]-playerWidth));
+//   }
+
+//     // playerHeight = basePlayerHeight;
+//     //  console.log("NO platform!!!" + playerHeight);
+
+// }
+
+// }
+
+            
+            // //to land on the test platform:
+            // if (worldData.player.y <430  && (worldData.player.x >=50-50+5) && (worldData.player.x <=50 +150)   ){
+            //   playerHeight = 63 + 500-450;
+            // } 
+            // else{
+            //   playerHeight = 63;
+            // }
+
 
 // Filters keys and fires down or up.
 // Updates world key array.
